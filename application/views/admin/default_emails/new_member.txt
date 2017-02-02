@@ -1,0 +1,15 @@
+Welcome to the Food Co-op!
+Welcome to the Southampton University Food Co-op, <member_name>!
+
+The next time we're about to place an order we'll let you know by email, and you can then log onto the Food Co-op website to let us know what you'd like us to buy in.
+
+You'll need to activate your account by using the following link:
+<login_link>
+
+All you need to do is choose a password and agree to our constitution, then you're all ready to explore!
+
+If you have any questions, just reply to this email.
+
+Thanks!
+
+The Food Co-op Team

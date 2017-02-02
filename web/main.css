@@ -1,0 +1,37 @@
+body{
+	margin-top:60px;
+}
+
+.hidden{display:none;}
+
+input[type=number]{
+	width:40px;
+}
+
+.f0s20{display:block;}
+.f0s20 b, .f0s20 i{display:block;padding-top:20px;}
+#constitution{
+	display:block;
+	background:#EEE;
+	width:80%;
+	height:300px;
+	overflow:auto;
+	margin-left:auto;
+	margin-right:auto;
+	padding:5px;
+	border:1px groove black;
+}
+
+@media print{
+  .topbar{
+    display: none;
+  }
+  
+  .order{
+    page-break-inside: avoid;
+  }
+  
+  input[type="submit"] input[type="button"]{
+    display: none;
+  }
+}

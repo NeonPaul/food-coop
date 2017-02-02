@@ -1,0 +1,50 @@
+.request_contents_item_details{
+	display:block;
+	float:left;
+	width:400px;
+	text-align:center;
+}
+
+#request_total{
+	display:block;
+	margin-left:450px;
+	margin-top:20px;
+	font-weight:bold;
+}
+
+#item_search_results{
+	display:bock;
+	position:absolute;
+	border:1px solid grey;
+	background:white;
+	list-style:none;
+	padding:0;
+	margin:0;
+}
+
+#item_search_results .result{
+	padding:0;
+	margin:0;
+}
+
+#item_search_results .result a{
+	display:block;
+	width:100%;
+	text-decoration:none;
+}
+
+#item_search_results .result a:hover,#item_search_results .result a:active{
+	background:blue;
+	color:white;
+}
+
+#item_search{
+	display:inline;
+	border:none;
+	padding:0;
+	margin:0;
+}
+
+#item_search input{
+	width:390px;
+}
