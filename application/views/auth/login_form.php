@@ -1,6 +1,6 @@
 <h1>Log in</h1>
 <p>Sign in with your email address and password to get started.</p>
-<p><a href="/food/login/reset_password">Forgotten your password?</a> We've got it covered.</p>
+<p><a href="login/reset_password">Forgotten your password?</a> We've got it covered.</p>
 <?= form_open('login'); ?>
 <p>
   <?php

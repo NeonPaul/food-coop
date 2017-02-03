@@ -46,12 +46,12 @@ document.itemSearch={
 	},
 	initiateRequest: function(){
 		var query=document.new_item.q.value;
-		document.itemSearch.XHR.open("GET","/food/request/search_items/js?q="+escape(query),false);
+		document.itemSearch.XHR.open("GET","request/search_items/js?q="+escape(query),false);
 		document.itemSearch.XHR.onreadystatechange=function(){
 			if((document.itemSearch.XHR.readyState==4)&&(document.itemSearch.XHR.status==200))
 					document.itemSearch.resultsArea.populate(eval(document.itemSearch.XHR.responseText));
 		};
-	
+
 	document.itemSearch.XHR.send(null);
 	},
 	selectItem: function(id,text){

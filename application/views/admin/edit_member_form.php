@@ -19,5 +19,5 @@
 		<p>Notes: <br><?=form_textarea("notes",$member->notes);?></p>
 		<p><?=form_submit("edit","Edit","class=btn");?></p>
 	<?=form_close();?>
-	<p><a href="/food/admin/members/email/new_member/<?=$member->member_id;?>">Send new user welcome email.</a></p>
+	<p><a href="admin/members/email/new_member/<?=$member->member_id;?>">Send new user welcome email.</a></p>
 </div>	

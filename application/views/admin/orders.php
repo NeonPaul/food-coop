@@ -88,7 +88,7 @@ $total+=$q*$r->wholesale_cost/100;
 		<?}?>
 		</div>
 		<?if($order_phase=="closed"):?>
-		<div class="span1">[<a href="/food/admin/orders/delete/<?=$r->item_id;?>" onclick="return confirm('Delete ALL occurences of this item?')">X</a>]</div>
+		<div class="span1">[<a href="admin/orders/delete/<?=$r->item_id;?>" onclick="return confirm('Delete ALL occurences of this item?')">X</a>]</div>
 		<?endif;?>
 	</div>
 	<?endforeach;?>

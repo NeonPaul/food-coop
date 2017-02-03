@@ -106,8 +106,8 @@ class Members extends CI_Controller{
 			<?
 			die;
 		}
-		
-		$msgdir="/home/mrkiddle/green_action/www/food/application/views/admin/default_emails/";
+
+		$msgdir= __DIR__ . "/../../views/admin/default_emails/";
 		$msgext=".txt";
 		if(preg_match("/^[a-z0-9_-]+$/i",$message)){
 			$msgfile=$msgdir.$message.$msgext;
@@ -116,13 +116,13 @@ class Members extends CI_Controller{
 		}
 		if(!isset($data['body']))
 			$data['body']=file($msgdir."default".$msgext);
-			
+
 		$data['subject']=array_shift($data['body']);
 		$data['body']=implode($data['body']);
-		
+
 		$data['to']=(is_numeric($user)?"User ID# $user":"Active members");
-		
-		
+
+
 		$this->load->view("head");
 		$this->load->view("admin/email_members_form",$data);
 		$this->load->view("foot");

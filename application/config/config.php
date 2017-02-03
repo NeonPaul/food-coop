@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://food-coop.mrkiddle.co.uk/';
+$config['base_url']	= getenv('BASE_URL');
 
 /*
 |--------------------------------------------------------------------------

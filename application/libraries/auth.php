@@ -1,10 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 
 require 'phpass/PasswordHash.php';
-$phpass = new PasswordHash(8, false);
 
 class Auth {
+  public static $phpass;
+
 	public function __construct(){
+          self::$phpass = new PasswordHash(8, false);
+
 		session_start();
 		//echo session_id();
 		//print_r($_SESSION);
@@ -14,10 +17,9 @@ class Auth {
 			$_SESSION["login_redir"]="/".$this->CI->uri->uri_string();
 			////echo "Checking session:"; //print_r($_SESSION);
 			self::session_from_cookie();
-			
 		}
 	}
-	
+
     public function require_login()
     {
 		if( ! isset($_SESSION['user'])){
@@ -27,11 +29,11 @@ class Auth {
 			}
 		}
     }
-	
+
 	public function logged_in(){
 		return isset($_SESSION['user']);
 	}
-	
+
 	public function verify_user($user_id,$password,$method="manual"){
 		$field_names = array(
 			"manual"=>array(	"id"=>"email",
@@ -39,15 +41,14 @@ class Auth {
 			"auto"=>array("id"=>"member_id",
 							 "pass"=>"machine_pass")
 						);
-		
+
 		//print_r(array($field_names[$method]["id"],$user_id,	$field_names[$method]["pass"],$password));
-		
+
 		$q = $this->CI->db
 				->where($field_names[$method]["id"],$user_id)
-				->where($field_names[$method]["pass"],$password)
 				->limit(1)
 				->get('members');
-		
+
 
 		if($q->num_rows() > 0){
 		  $row = $q->row();
@@ -60,7 +61,7 @@ class Auth {
                       $this->load->model("admin/members_model");
                       $this->members_model->update_member(
                         $row->member_id,
-                        array("password"=>$phpass->hashPassword($password))
+                        array("password"=>self::$phpass->hashPassword($password))
                       );
                     }
                   } else {
@@ -72,7 +73,7 @@ class Auth {
 		}
 		return false;
 	}
-	
+
 	public function verify_user2($user_id,$password){
 		$q = $this->CI->db
 				->where('email',$user_id)
@@ -85,14 +86,14 @@ class Auth {
 		}
 		return false;
 	}
-	
+
 	function new_machine_pass($member_id){
                 // Very bad...
 		$pass=self::pw_encrypt(time());
 		$this->CI->db->query("UPDATE `members` SET `machine_pass`='$pass' WHERE `member_id`='$member_id'");
 		return $pass;
 	}
-	
+
 	function refresh_user(){
 		$q = $this->CI->db
 				->where('member_id',self::get_udata('member_id'))
@@ -104,14 +105,14 @@ class Auth {
 		}
 		return false;
 	}
-	
+
 	public function set_user_session($data){
 		$_SESSION['user']=$data;
 		//echo "Setting session: "; print_r($_SESSION);
 		$this->CI->user=$data;
-		
+
 	}
-	
+
 	public function unset_session(){
 		unset($_SESSION['user']);
 		unset($_COOKIE['login']);
@@ -119,9 +120,9 @@ class Auth {
 		echo "<script>window.location.replace('/food')</script><a href='/food'>You are now logged out, click here to continue.</a>";
 		die;
 	}
-	
+
 	public function authenticate($id,$password,$method="manual",$cookie=false){
-	
+
 		$result = self::verify_user($id,$password,$method);
 		//echo "User varified\n";
 		if($result !== false){
@@ -137,7 +138,7 @@ class Auth {
 		//echo "User wrong!\n";
 		return false;
 	}
-	
+
 	public function authenticate2($id,$password){
 		$result = self::verify_user2($id,$password);
 		if($result !== false){
@@ -146,12 +147,12 @@ class Auth {
 		}
 		return false;
 	}
-	
+
 	public function create_cookie($member_id){
 		$machine_pass = self::new_machine_pass($member_id);
 		setcookie("login",$member_id.":".$machine_pass,time()+60*60*24*30*3,'/');
 	}
-	
+
 	public function session_from_cookie(){
 		//echo "Cookie stuff\n";
 		if(!isset($_COOKIE['login']))
@@ -161,29 +162,29 @@ class Auth {
 		//echo "About to authenticate\n";
 		return self::authenticate($c[0],$c[1],"auto",true);
 	}
-		
+
 	public function pw_encrypt($input, $deprecated=false){
           if ($deprecated) {
 		$salt=getenv('DEP_PW_SALT');
 		return md5($salt.md5($input).$salt);
           }
-          return $phpass->hashPassword($input);
+          return self::$phpass->hashPassword($input);
 	}
 
         public function verify_password($password, $stored) {
-          if (strpos($stored, '$P$') > -1) {
-            return $phpass->checkPassword($password, $stored) && true;
+          if (strpos($stored, '$') == 0) {
+            return self::$phpass->checkPassword($password, $stored) && true;
           } else {
             return (self::pw_encrypt($password, true) == $stored) && 1;
           }
         }
-	
+
 	public function get_udata($what=NULL){
 		if(!isset($_SESSION['user']))
 			return;
 		if($what===NULL)
 			return $_SESSION['user'];
-		
+
 		if(!isset($_SESSION['user']->$what)){
 			die("Could not get user data: ".$what);
 		}

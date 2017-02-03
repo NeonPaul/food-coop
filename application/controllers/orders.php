@@ -1,19 +1,19 @@
 <?php
 class Orders extends CI_Controller{
 	public $user;
-	
+
 	function __construct(){
 		parent::__construct();
 		$this->auth->require_login();
-		
+
 		$this->load->model('item_model');
 		$this->load->model('order_model');
 		$this->load->library('state');
-		
+
 		if(!$this->auth->get_udata("constitution")){
 			redirect("settings/constitution");
 		}
-		
+
 		if($this->state->get("order_phase")!="open"){
 			$this->load->view("head");
 			$this->load->view("orders/orders_processing");
@@ -22,20 +22,20 @@ class Orders extends CI_Controller{
 			die;
 		}
 	}
-	
+
 	public function index()
 	{
 		// Fetch the user's open (transaction? order collection?)
 		$data['request_items']=$this->order_model->getCurrentOrders();
 		$data['total']=$this->order_model->getTotal($data['request_items']);
 		$data['weight']=$this->order_model->getWeight();
-		$hdata['stylesheets']=array("/food/request.css");
-		$fdata['scripts']=array("/food/request.js");
+		$hdata['stylesheets']=array("request.css");
+		$fdata['scripts']=array("request.js");
 		$this->load->view("head",$hdata);
 		$this->load->view("orders/your_order",$data);
 		$this->load->view("foot",$fdata);
 	}
-	
+
 	function add()
 	{
 		$id=$this->input->post('item_id');
@@ -59,11 +59,11 @@ class Orders extends CI_Controller{
 		$id=$this->input->post('item_id');
 		$qtty=$this->input->post('quantity');
 		$this->order_model->updateOrAddItem($id,$qtty);
-		redirect($return);			
+		redirect($return);
 	}
-	
+
 	function all_orders(){
-		$fdata['scripts']=array("/food/jquery.js");
+		$fdata['scripts']=array("jquery.js");
 		$this->load->helper('money');
 		$data['results']=$this->order_model->compile_orders();
 		$data['total']=$this->order_model->getTotal();
@@ -71,7 +71,7 @@ class Orders extends CI_Controller{
 		$this->load->view("orders/all_orders",$data);
 		$this->load->view("foot",$fdata);
 	}
-	
+
 	function popular_items(){
 		$data['results']=$this->order_model->get_popular_items();
 		$data['total']=$this->order_model->getTotal();
