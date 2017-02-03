@@ -117,26 +117,22 @@ class Auth {
 		unset($_SESSION['user']);
 		unset($_COOKIE['login']);
 		setcookie("login","",0,"/");
-		echo "<script>window.location.replace('/food')</script><a href='/food'>You are now logged out, click here to continue.</a>";
+		echo "<script>window.location.replace('/')</script><a href='/'>You are now logged out, click here to continue.</a>";
 		die;
 	}
 
 	public function authenticate($id,$password,$method="manual",$cookie=false){
-
-		$result = self::verify_user($id,$password,$method);
-		//echo "User varified\n";
-		if($result !== false){
-			//	echo "Authenticating; setting user session.\n";
-				self::set_user_session($result);
-				if($cookie || $method=="auto"){
-					self::create_cookie($result->member_id);
-					echo "<script>window.location.replace('/food".$_SESSION['login_redir']."')</script><a href='/food".$_SESSION['login_redir']."'>You are now logged in, click here to continue.</a>";
-					die;
-				}
-				return true;
-		}
-		//echo "User wrong!\n";
-		return false;
+          $result = self::verify_user($id,$password,$method);
+            if($result !== false){
+              self::set_user_session($result);
+              if($cookie || $method=="auto"){
+                self::create_cookie($result->member_id);
+                echo "<script>window.location.replace('/".$_SESSION['login_redir']."')</script><a href='/".$_SESSION['login_redir']."'>You are now logged in, click here to continue.</a>";
+                die;
+              }
+              return true;
+            }
+          return false;
 	}
 
 	public function authenticate2($id,$password){

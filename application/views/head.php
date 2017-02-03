@@ -17,7 +17,7 @@ foreach($stylesheets as $s):?>
     <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="/food">Food Co-op</a>
+          <a class="brand" href=".">Food Co-op</a>
           <ul class="nav">
 			<?if($this->auth->logged_in()):?>
 			<li><a href="request">Your Order</a>
