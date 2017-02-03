@@ -3,12 +3,13 @@
 <head>
 	<title>Green Action Food Co-op</title>
 
+<base href="<?=$this->config->item('base_url');?>">
+
 <?if(isset($stylesheets))
 foreach($stylesheets as $s):?>
 <link rel="stylesheet" href="<?=$s;?>">
 <?endforeach;?>
 
-<base href="<?=$this->config->item('base_url');?>">
 <link rel="stylesheet" href="bootstrap.min.css">
 <link rel="stylesheet" href="main.css">
 
