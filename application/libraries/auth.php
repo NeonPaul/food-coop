@@ -168,10 +168,10 @@ class Auth {
 	}
 
         public function verify_password($password, $stored) {
-          if (strpos($stored, '$') == 0) {
-            return self::$phpass->checkPassword($password, $stored) && true;
+          if (strpos($stored, '$') === 0) {
+            return self::$phpass->checkPassword($password, $stored) ? true : false;
           } else {
-            return (self::pw_encrypt($password, true) == $stored) && 1;
+            return self::pw_encrypt($password, true) == $stored ? 1 : false;
           }
         }
 
