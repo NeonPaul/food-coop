@@ -57,11 +57,11 @@ function constitution(){
 		redirect($agree?"":"settings/constitution");
 	}
 
-	include "../libraries/rtfclass.php";
+	include __DIR__ . "/../libraries/rtfclass.php";
 
 	$this->load->helper("clean_close_tags");
 	$this->config->load("file_locations");
-	$con=file_get_contents($this->config->item("data_path").$this->config->item("constitution"));
+	$con = @file_get_contents($this->config->item("data_path").$this->config->item("constitution"));
         if ($con) {
 	  $con=new rtf($con);
 	  $con->output("html");
