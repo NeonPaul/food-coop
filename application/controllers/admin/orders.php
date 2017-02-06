@@ -11,7 +11,7 @@ class Orders extends CI_Controller{
 
 	public function index()
 	{
-		$phase=$this->state->get("order_phase", 'collection');
+		$phase=$this->state->get("order_phase", 'open');
 
 		if($phase=="collection"){
 			self::member_orders();
@@ -40,7 +40,7 @@ class Orders extends CI_Controller{
 	}
 
 	public function member_orders($e=false){
-		$phase=$this->state->get("order_phase", 'collection');
+		$phase=$this->state->get("order_phase", 'open');
 		if($phase=="collection"){
 			if($this->input->post("open_orders")){
 				$this->state->set("order_phase","open");
@@ -62,14 +62,14 @@ class Orders extends CI_Controller{
 	}
 
 	public function delete($item_id){
-		if($this->state->get("order_phase", 'collection') == "closed"){
+		if($this->state->get("order_phase", 'open') == "closed"){
 			$this->orders_model->delete_from_current($item_id);
 		}
 		redirect("admin/orders");
 	}
 
 	public function update(){
-		if($this->state->get("order_phase", 'collection') == "closed"){
+		if($this->state->get("order_phase", 'open') == "closed"){
 			$this->orders_model->update_qtty($this->input->post("item_id"),$this->input->post("member_id"),$this->input->post("qtty"));
 
 		}

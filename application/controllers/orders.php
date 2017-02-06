@@ -14,7 +14,7 @@ class Orders extends CI_Controller{
 			redirect("settings/constitution");
 		}
 
-		if($this->state->get("order_phase", 'collection') != "open"){
+		if($this->state->get("order_phase", 'open') != "open"){
 			$this->load->view("head");
 			$this->load->view("orders/orders_processing");
 			$this->load->view("foot");
@@ -44,16 +44,16 @@ class Orders extends CI_Controller{
 			$this->order_model->addItem($id,$qtty);
 		redirect("orders");
 	}
-	
+
 	function update()
 	{
 		$return=$this->input->post('return') OR $return='orders';
 		$id=$this->input->post('request_id');
 		$qtty=$this->input->post('quantity');
 		$this->order_model->updateItem($id,$qtty);
-		redirect($return);	
+		redirect($return);
 	}
-	
+
 	function update_add(){
 		$return=$this->input->post('return') OR $return='orders';
 		$id=$this->input->post('item_id');
@@ -77,18 +77,18 @@ class Orders extends CI_Controller{
 		$data['total']=$this->order_model->getTotal();
 		$this->load->view("head");
 		$this->load->view("orders/popular_items",$data);
-		$this->load->view("foot");		
+		$this->load->view("foot");
 	}
-	
+
 	function current_stock(){
 		$data['stock']=$this->order_model->get_current_stock();
 		$data['user_orders']=$this->order_model->member_orders();
 		$data['total']=$this->order_model->getTotal();
 		$this->load->view("head");
 		$this->load->view("orders/stock_list",$data);
-		$this->load->view("foot");			
+		$this->load->view("foot");
 	}
-	
+
 	function search_catalogue(){
 		$term=$_GET['q'];
 		$this->load->model("catalogue_model");
@@ -99,13 +99,13 @@ class Orders extends CI_Controller{
 		$this->load->view("orders/search_catalogue",$data);
 		$this->load->view("foot");
 	}
-	
+
 	function catalogue_import(){
 		$q=array_filter($this->input->post("qtty"),function($v){return $v>0;});
 		$this->load->model("catalogue_model");
 
-		if(($q)&&($results=$_SESSION['catalogue_search_results'])){	
-			$import_items=array_intersect_key($results,$q);		
+		if(($q)&&($results=$_SESSION['catalogue_search_results'])){
+			$import_items=array_intersect_key($results,$q);
 			$this->catalogue_model->import($import_items);
 
 			foreach($q as $id => $qtty){
@@ -114,7 +114,7 @@ class Orders extends CI_Controller{
 		}
 		redirect("orders");
 	}
-	
+
 	function search_items($type="html"){
 		$q=isset($_REQUEST['q'])?$_REQUEST['q']:"";
 		$data['search']=$this->item_model->search($q);
