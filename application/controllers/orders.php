@@ -14,7 +14,7 @@ class Orders extends CI_Controller{
 			redirect("settings/constitution");
 		}
 
-		if($this->state->get("order_phase")!="open"){
+		if($this->state->get("order_phase", 'collection') != "open"){
 			$this->load->view("head");
 			$this->load->view("orders/orders_processing");
 			$this->load->view("foot");

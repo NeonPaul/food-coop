@@ -8,7 +8,7 @@ class Catalogue extends CI_Controller{
 	public function index(){
 		self::upload();
 	}
-	
+
 	public function upload(){
 		$data=array();
 		if($this->input->post("upload")){
@@ -18,13 +18,13 @@ class Catalogue extends CI_Controller{
 			$upload['file_name'] = "temp_".$this->config->item("catalogue");
 			$upload['allowed_types'] = "csv";
 			$upload['overwrite'] = TRUE;
-			
+
 			$this->load->library("upload",$upload);
-			
+
 			if(!$this->upload->do_upload("file")){
 				$data['error']=$this->upload->display_errors();
 			}else{
-				
+
 				$result=$this->upload->data();
 				$this->load->model("catalogue_model");
 				if(!$this->catalogue_model->verify($result['full_path'])){
@@ -40,7 +40,7 @@ class Catalogue extends CI_Controller{
 					}
 				}
 			}
-			
+
 			// Upload and move to place
 			// Extract contents & update database
 		}
