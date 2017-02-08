@@ -58,8 +58,8 @@ class Auth {
                       return false;
                     }
                     if ($ver === 1) {
-                      $this->load->model("admin/members_model");
-                      $this->members_model->update_member(
+                      $this->CI->load->model("admin/members_model");
+                      $this->CI->members_model->update_member(
                         $row->member_id,
                         array("password"=>self::$phpass->hashPassword($password))
                       );
